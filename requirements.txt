@@ -1,0 +1,14 @@
+# Core dependencies for HealthLabelCheck
+
+# Day 4 - Web API
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.5.0
+
+# Day 4 S2 - Data analysis and search
+pandas>=2.1.0
+scikit-learn>=1.3.0  # For TF-IDF and cosine similarity
+
+# Future dependencies (will be added as needed):
+requests>=2.31.0  # For downloading PDFs
+python-multipart>=0.0.6  # For file uploads
