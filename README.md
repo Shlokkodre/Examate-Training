@@ -1,38 +1,95 @@
-# LabelCheck
+# HealthLabelCheck
 
 ## Project Card
 
-- **Product:** LabelCheck — a beginner-friendly food-label checking assistant that helps people understand packaged food labels before buying.
-- **Target user:** Indian consumers, students, and families who want to make more informed packaged-food choices.
-- **Problem:** Food packaging can be difficult to interpret. Nutrition values, ingredients, allergens, and marketing claims may be confusing, making it hard to compare products quickly.
-- **Proposed data source:** [Open Food Facts](https://world.openfoodfacts.org/) product database/API. FSSAI resources can be used as a reference for Indian food-safety and labelling guidance.
+- **Product:** HealthLabelCheck — Checks a small food maker's packet label against FSSAI's Labelling and Display Regulations and lists exactly what is missing before they print.
+- **Target user:** A woman running a home-based chakli and laddoo business in Kopargaon who wants to sell packed snacks in Shirdi shops and does not know what must be printed on the pouch.
+- **Problem:** Small food business owners don't know what mandatory declarations, font sizes, and symbols are required by FSSAI regulations before printing their food packet labels.
+- **Proposed data source:** PDF (regulation text with tables and schedules) - FSSAI Labelling and Display Regulations
+  - https://fssai.gov.in/upload/uploadfiles/files/Compendium_Labelling_Display_04_01_2022.pdf
+  - https://fssai.gov.in/upload/media/FSSAI_News_Packaged_FNB_04_01_2020.pdf
 
-## Day 01 scope
+## Key Features
 
-This first version is a command-line learning prototype. It does not fetch live product data or provide medical advice.
+1. **Label checklist:** User ticks what is printed on their pouch and gets a green/red table of all 14 mandatory declarations with the exact regulation number for each missing item.
+2. **min_font_size_checker:** Computes the panel area from length × width and returns the minimum font height for the net quantity and other declarations.
 
-- `day01_intro.py` prints this project card using variables and f-strings, then asks for the user's name and question.
-- `day01_menu.py` displays a repeatable menu using a `while` loop, shows sample questions, and demonstrates one simple label rule.
+## Sample Questions
+
+1. What things must be printed on a packed food label as per FSSAI?
+2. What is the rule for the vegetarian green dot symbol?
+3. Is nutrition information required on every packet?
+4. My chakli pouch front is 12 cm by 8 cm, what minimum font size do I need for net weight?
+5. Which labelling rules changed in the 2021 amendment compared to the original 2020 regulation?
+6. What is the cheapest printing shop for food pouches in Kopargaon?
+
+## Data Schema
+
+Fields extracted from regulations:
+- `regulation_no`: Regulation number (e.g., "5.1", "6.2")
+- `requirement`: What must be displayed
+- `applies_to`: Product categories this applies to
+- `details`: Specific requirements and conditions
+- `exemption`: Any exemptions that apply
+- `source_doc`: Source document reference
+
+## Disclaimer
+
+Information from FSSAI regulations, not legal advice. Confirm with FSSAI or a food safety officer before printing labels.
 
 ## Run the scripts
 
+### Day 1-2: Python Scripts
 ```bash
+# Day 1 scripts
 python day01_intro.py
 python day01_menu.py
+
+# Day 2 scripts
+python -m app.cli  # Interactive CLI
+python -m app.ingest  # Process and save records
+python -m app.fetch  # Fetch FSSAI documents
 ```
 
-## Example rule
+### Day 3: Data Analysis
+```bash
+# Ingest data
+python -m app.ingest
 
-The menu includes a simple sugar-value demonstration:
-- Below 5 g per 100 g: lower-sugar example
-- From 5 g through 22.5 g per 100 g: moderate-sugar example
-- Above 22.5 g per 100 g: high-sugar example
+# Run analysis
+python -m analysis.explore
 
-These are illustrative learning thresholds, not an official FSSAI classification or a health recommendation. Always check the full label and applicable official guidance.
+# Test smart search
+python -m app.smart_search
+```
 
-## Future improvements
+### Day 4: FastAPI Web Service
 
-1. Fetch product details from Open Food Facts.
-2. Add ingredient and allergen highlighting.
-3. Compare two products side by side.
-4. Add clearer explanations of nutrition information and label terminology.
+First, install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+Run the API server:
+```bash
+# Option 1: Using uvicorn directly
+uvicorn app.main:app --reload
+
+# Option 2: Using Python
+python -m app.main
+```
+
+The API will be available at: `http://localhost:8000`
+
+**API Documentation:**
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+**Key Endpoints:**
+- `GET /health` - Health check
+- `GET /records` - List regulations (with limit)
+- `GET /records/{regulation_no}` - Get specific regulation
+- `GET /search?q=keyword` - Smart search with TF-IDF ranking
+- `POST /questions` - Ask questions about regulations
+- `POST /font-size` - Calculate minimum font size
+- `GET /mandatory-checklist` - Get all mandatory requirements

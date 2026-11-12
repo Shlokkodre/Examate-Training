@@ -1,58 +1,66 @@
 
-product = "LabelCheck"
-target_users = "Indian consumers, students, and families"
-data_source = "Open Food Facts"
-menu_title = "LABELCHECK MENU"
-separator = "=" * 55
+product = "HealthLabelCheck"
+target_users = "Small food business owners, home-based snack makers"
+data_source = "FSSAI Labelling and Display Regulations"
+menu_title = "HEALTHLABELCHECK MENU"
+separator = "=" * 70
 
 print(f"Welcome to {product}!")
 
 while True:
     print(f"\n{separator}")
-    print(f"{menu_title:^55}")
+    print(f"{menu_title:^70}")
     print(separator)
-    print("1. About LabelCheck")
+    print("1. About HealthLabelCheck")
     print("2. Sample questions")
-    print("3. Check a sample sugar value")
+    print("3. Check if nutrition information is required (simple rule)")
     print("0. Exit")
     print(separator)
 
     choice = input("Enter your choice: ").strip()
 
     if choice == "1":
-        print(f"\n{product} helps people understand packaged-food labels.")
+        print(f"\n{product} helps small food makers check their packet labels")
+        print(f"against FSSAI regulations before printing.")
         print(f"Target users: {target_users}.")
-        print(f"Proposed data source: {data_source}.")
+        print(f"Data source: {data_source}.")
 
     elif choice == "2":
         print("\nSample questions:")
-        print("- How much sugar does this product contain?")
-        print("- Does this product list common allergens?")
-        print("- What do the ingredients mean?")
-        print("- How can I compare two packaged products?")
+        print("- What things must be printed on a packed food label as per FSSAI?")
+        print("- What is the rule for the vegetarian green dot symbol?")
+        print("- Is nutrition information required on every packet?")
+        print("- My chakli pouch front is 12 cm by 8 cm, what minimum font size")
+        print("  do I need for net weight?")
+        print("- Which labelling rules changed in the 2021 amendment?")
 
     elif choice == "3":
+        print("\nSimple check: Is nutrition information required?")
+        print("According to FSSAI Regulation 2.2:")
+        
         try:
-            sugar = float(input("Enter sugar in grams per 100 g: "))
-
-            if sugar < 0:
-                print("Sugar value cannot be negative.")
-            elif sugar < 5:
-                print("Demo result: lower-sugar example.")
-            elif sugar <= 22.5:
-                print("Demo result: moderate-sugar example.")
+            package_size = float(input("Enter package size in cm² (length × width): "))
+            
+            if package_size < 0:
+                print("Package size cannot be negative.")
+            elif package_size < 100:
+                print("✓ Small package (<100 cm²): Nutrition info may be exempted")
+                print("  (check specific product category exemptions)")
             else:
-                print("Demo result: high-sugar example.")
-
-            print("Note: These are illustrative coding thresholds,")
-            print("not an official FSSAI classification or health advice.")
-
+                print("✗ Package ≥100 cm²: Nutrition information IS REQUIRED")
+                print("  Must include: Energy, Protein, Carbohydrate, Total Sugars,")
+                print("  Total Fat, Saturated Fat, Trans Fat, and Sodium")
+            
+            print("\nNote: This is a simplified rule for learning.")
+            print("Always verify with complete FSSAI regulations.")
+            
         except ValueError:
-            print("Please enter a valid number, such as 4.5.")
+            print("Please enter a valid number, such as 96 or 120.")
 
     elif choice == "0":
-        print(f"Thank you for trying {product}. Goodbye!")
+        print(f"Thank you for using {product}. Goodbye!")
         break
 
     else:
         print("Invalid choice. Please enter 1, 2, 3, or 0.")
+
