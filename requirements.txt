@@ -12,3 +12,8 @@ scikit-learn>=1.3.0  # For TF-IDF and cosine similarity
 # Future dependencies (will be added as needed):
 requests>=2.31.0  # For downloading PDFs
 python-multipart>=0.0.6  # For file uploads
+
+# Day 6 - LLM Integration
+python-dotenv>=1.0.0  # For environment variables
+groq>=0.4.0  # Groq API client
+google-generativeai>=0.3.0  # Gemini API client (alternative)

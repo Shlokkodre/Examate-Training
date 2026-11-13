@@ -11,6 +11,7 @@ import os
 
 from app.models import RegulationRecord, get_min_font_size
 from app.smart_search import SmartSearch
+from app.llm import get_llm
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -68,6 +69,20 @@ class QuestionResponse(BaseModel):
     question: str
     answer: str
     relevant_regulations: List[str]
+
+
+class ChatRequest(BaseModel):
+    """Request model for chat endpoint"""
+    message: str = Field(..., min_length=1, max_length=1000)
+    include_context: bool = Field(default=True, description="Include relevant regulations as context")
+
+
+class ChatResponse(BaseModel):
+    """Response model for chat endpoint with LLM"""
+    answer: str
+    confidence: Optional[float] = None
+    follow_up: Optional[str] = None
+    context_used: Optional[List[str]] = None
 
 
 class FontSizeRequest(BaseModel):
@@ -250,6 +265,52 @@ def get_mandatory_checklist():
         if 'all packaged foods' in record['applies_to'].lower():
             mandatory.append(record)
     return mandatory
+
+
+@app.post("/chat", response_model=ChatResponse, tags=["LLM"])
+def chat_with_llm(request: ChatRequest):
+    """
+    Chat with HealthLabelCheck AI assistant
+    Uses LLM to provide natural language answers about FSSAI regulations
+    """
+    try:
+        llm = get_llm()
+        
+        # Optionally add context from relevant regulations
+        context = None
+        context_regs = []
+        
+        if request.include_context and SEARCH_ENGINE:
+            # Search for relevant regulations
+            search_results = SEARCH_ENGINE.search(request.message, top_k=3)
+            if search_results:
+                context_parts = []
+                for result in search_results:
+                    reg = result['record']
+                    context_parts.append(
+                        f"Regulation {reg['regulation_no']}: {reg['requirement']}\n"
+                        f"Details: {reg['details']}\n"
+                        f"Applies to: {reg['applies_to']}\n"
+                        f"Exemption: {reg['exemption']}"
+                    )
+                    context_regs.append(reg['regulation_no'])
+                context = "\n\n".join(context_parts)
+        
+        # Get LLM response
+        response = llm.answer_question(request.message, context=context)
+        
+        return ChatResponse(
+            answer=response.get('answer', ''),
+            confidence=response.get('confidence'),
+            follow_up=response.get('follow_up'),
+            context_used=context_regs if context_regs else None
+        )
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"LLM error: {str(e)}. Make sure .env file is configured with API keys."
+        )
 
 
 if __name__ == "__main__":
