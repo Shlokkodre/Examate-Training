@@ -3,33 +3,33 @@
     "regulation_no": "5.1",
     "requirement": "Name of Food",
     "applies_to": "All packaged foods",
-    "details": "The name of the food shall be the name prescribed in the relevant regulations or standard. If no name is prescribed, the name shall be a common or generic name or an appropriate descriptive name.",
+    "details": "The name of the food shall be the name prescribed in the relevant regulations or standard. If no name is prescribed, the common or generic name shall be used.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.2",
     "requirement": "List of Ingredients",
     "applies_to": "All packaged foods",
-    "details": "A complete list of ingredients in descending order of their composition by weight or volume at the time of manufacture. Ingredients less than 5% may be listed in any order after other ingredients.",
+    "details": "A complete list of ingredients in descending order of their composition by weight or volume at the time of manufacture.",
     "exemption": "Single ingredient foods, fresh fruits and vegetables",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.3",
     "requirement": "Nutritional Information",
     "applies_to": "All packaged foods with surface area > 100 cm²",
-    "details": "Must declare: Energy, Protein, Carbohydrate (of which sugars), Fat (of which saturated fat and trans fat), and Sodium per 100g/100ml and per serve.",
-    "exemption": "Small packages (<100 cm²), certain categories like spices, salt, tea, coffee",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "details": "Must declare: Energy, Protein, Carbohydrate (of which sugars), Fat (of which saturated fat and trans fat), and Sodium per 100 g/100 ml and per serve.",
+    "exemption": "Small packages (<100 cm²), spices, salt, tea, coffee",
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.4",
     "requirement": "Declaration of Allergens",
     "applies_to": "Foods containing common allergens",
-    "details": "If the product contains any of the following allergens, they must be declared: Cereals containing gluten, Crustaceans, Eggs, Fish, Peanuts, Soybeans, Milk, Tree nuts, Sulphite (≥10 mg/kg).",
+    "details": "Cereals containing gluten, Crustaceans, Eggs, Fish, Peanuts, Soybeans, Milk, Tree nuts, Sulphite (≥10 mg/kg) must be declared.",
     "exemption": "None for products containing allergens",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.5",
@@ -37,31 +37,31 @@
     "applies_to": "All packaged foods",
     "details": "Complete name and address of the manufacturer, packer, or bottler including street name, city, state, and country.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.6",
     "requirement": "Net Quantity",
     "applies_to": "All packaged foods",
-    "details": "Net quantity in terms of weight, volume, or number. Must be in metric units (g, kg, ml, l).",
+    "details": "Net quantity in terms of weight, volume, or number in metric units (g, kg, ml, l).",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.7",
-    "requirement": "Date of Manufacture/Packing and Best Before/Use By Date",
+    "requirement": "Date of Manufacture and Best Before / Use By Date",
     "applies_to": "All packaged foods",
-    "details": "Both manufacturing/packing date and 'Best Before' or 'Use By' date must be declared. Format should be DD/MM/YYYY or other clear format.",
+    "details": "Both manufacturing/packing date and Best Before or Use By date must be declared. Format: DD/MM/YYYY or similar clear format.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.8",
     "requirement": "FSSAI License Number",
     "applies_to": "All packaged foods",
-    "details": "License number or registration number issued by FSSAI. Must include FSSAI logo with license number.",
+    "details": "License or registration number issued by FSSAI must be displayed along with the FSSAI logo.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.9",
@@ -69,39 +69,39 @@
     "applies_to": "Imported foods",
     "details": "For imported packaged food, country of origin must be declared prominently.",
     "exemption": "Domestically manufactured products",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.10",
     "requirement": "Veg/Non-Veg Symbol",
     "applies_to": "All packaged foods",
-    "details": "Green filled circle in a square for vegetarian. Brown filled circle in a square for non-vegetarian. Symbol size minimum 3mm diameter.",
+    "details": "Green filled circle in a square for vegetarian; brown filled circle in a square for non-vegetarian. Minimum symbol size: 3 mm diameter.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.11",
-    "requirement": "Instructions for Use (if required)",
+    "requirement": "Instructions for Use",
     "applies_to": "Foods requiring preparation or special storage",
     "details": "Instructions for proper use, preparation, or reconstitution if the product requires it.",
     "exemption": "Ready-to-eat products not requiring instructions",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "5.12",
     "requirement": "Food Additive Declaration",
     "applies_to": "Foods containing additives",
-    "details": "All food additives must be declared by their functional class followed by specific name or INS number (e.g., Preservative (INS 211)).",
+    "details": "All food additives must be declared by functional class followed by specific name or INS number, e.g. Preservative (INS 211).",
     "exemption": "Foods with no additives",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "6.1",
     "requirement": "Minimum Font Size on Principal Display Panel",
     "applies_to": "All packaged foods",
-    "details": "Font size depends on principal display panel area. For <40 cm²: 1.0mm, 40-170 cm²: 1.5mm, 170-650 cm²: 2.0mm, >650 cm²: 3.0mm minimum letter height.",
+    "details": "Font size depends on principal display panel area. <40 cm²: 1.0 mm; 40–170 cm²: 1.5 mm; 170–650 cm²: 2.0 mm; >650 cm²: 3.0 mm minimum letter height.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   },
   {
     "regulation_no": "6.2",
@@ -109,6 +109,6 @@
     "applies_to": "All packaged foods",
     "details": "All mandatory information must be in sharp contrast to the background, clearly legible, and indelible.",
     "exemption": "None",
-    "source_doc": "FSSAI Labelling Regulation 2020"
+    "source_doc": "FSSAI_Labelling_Compendium_2022.pdf"
   }
 ]
