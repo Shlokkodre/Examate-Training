@@ -12,6 +12,7 @@ import os
 from app.models import RegulationRecord, get_min_font_size
 from app.smart_search import SmartSearch
 from app.llm import get_llm
+from app.vectorstore import semantic_search as vector_search
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -255,6 +256,22 @@ def calculate_font_size(request: FontSizeRequest):
         panel_area_cm2=round(area, 2),
         min_letter_height_mm=min_height
     )
+
+
+@app.get("/search/semantic", tags=["Search"])
+def search_semantic(
+    q: str = Query(..., min_length=1, description="Semantic search query"),
+    top_k: int = Query(default=3, ge=1, le=10)
+):
+    """
+    Semantic search powered by Chroma vector store + sentence-transformers.
+    Returns ranked results with similarity scores.
+    """
+    try:
+        results = vector_search(q, top_k=top_k)
+        return results
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Vector search error: {e}")
 
 
 @app.get("/mandatory-checklist", response_model=List[RegulationResponse], tags=["Regulations"])

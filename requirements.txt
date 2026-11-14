@@ -14,6 +14,10 @@ requests>=2.31.0  # For downloading PDFs
 python-multipart>=0.0.6  # For file uploads
 
 # Day 6 - LLM Integration
-python-dotenv>=1.0.0  # For environment variables
-groq>=0.4.0  # Groq API client
-google-generativeai>=0.3.0  # Gemini API client (alternative)
+python-dotenv>=1.0.0
+groq>=0.4.0
+google-generativeai>=0.3.0
+
+# Day 7 - Embeddings and Vector Store
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
