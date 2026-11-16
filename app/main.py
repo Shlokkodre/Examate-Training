@@ -13,6 +13,7 @@ from app.models import RegulationRecord, get_min_font_size
 from app.smart_search import SmartSearch
 from app.llm import get_llm
 from app.vectorstore import semantic_search as vector_search
+from app.rag import ask as rag_ask
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -70,6 +71,20 @@ class QuestionResponse(BaseModel):
     question: str
     answer: str
     relevant_regulations: List[str]
+
+
+class AskRequest(BaseModel):
+    """Request model for RAG /ask endpoint"""
+    question: str = Field(..., min_length=1, max_length=500)
+    top_k: int = Field(default=3, ge=1, le=10)
+
+
+class AskResponse(BaseModel):
+    """Response from RAG pipeline"""
+    answer: str
+    citations: List[str]
+    chunks_used: int
+    source: str
 
 
 class ChatRequest(BaseModel):
@@ -282,6 +297,17 @@ def get_mandatory_checklist():
         if 'all packaged foods' in record['applies_to'].lower():
             mandatory.append(record)
     return mandatory
+
+
+@app.post("/ask", response_model=AskResponse, tags=["RAG"])
+def ask_rag(request: AskRequest):
+    """
+    RAG endpoint: retrieves relevant regulation chunks from Chroma
+    then generates a grounded answer with citations.
+    Returns 'I don't know' for out-of-scope questions (e.g. Q6).
+    """
+    result = rag_ask(request.question, top_k=request.top_k)
+    return AskResponse(**result)
 
 
 @app.post("/chat", response_model=ChatResponse, tags=["LLM"])

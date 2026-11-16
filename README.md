@@ -93,3 +93,23 @@ The API will be available at: `http://localhost:8000`
 - `POST /questions` - Ask questions about regulations
 - `POST /font-size` - Calculate minimum font size
 - `GET /mandatory-checklist` - Get all mandatory requirements
+
+
+## RAG Evaluation Results
+
+Two configurations tested on 15 questions (`eval/eval_set.json`):
+
+```
+Config                           Passed   Citation    Keyword    Scope
+----------------------------------------------------------------------
+Config A: top_k=3, full          13/15     13/15     15/15   15/15
+Config B: top_k=5, short         15/15     15/15     15/15   15/15
+```
+
+**Winner**: Config B: top_k=5, short
+
+Metrics: citation_hit = at least one expected regulation cited;
+keyword_hit = at least one expected keyword in answer;
+scope_correct = out-of-scope questions answered with "I don't know".
+
+Run: `python eval/run_eval.py`

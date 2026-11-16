@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "question": "What things must be printed on a packed food label as per FSSAI?",
+    "expected_regulations": ["5.1","5.2","5.5","5.6","5.7","5.8","5.10"],
+    "expected_answer_contains": ["name","ingredient","manufacturer","net quantity","date","FSSAI","veg"],
+    "is_answerable": true
+  },
+  {
+    "id": 2,
+    "question": "What is the rule for the vegetarian green dot symbol?",
+    "expected_regulations": ["5.10"],
+    "expected_answer_contains": ["green","circle","square","3mm","vegetarian"],
+    "is_answerable": true
+  },
+  {
+    "id": 3,
+    "question": "Is nutrition information required on every packet?",
+    "expected_regulations": ["5.3"],
+    "expected_answer_contains": ["100 cm", "energy","protein","fat","sodium"],
+    "is_answerable": true
+  },
+  {
+    "id": 4,
+    "question": "My chakli pouch front is 12 cm by 8 cm, what minimum font size do I need for net weight?",
+    "expected_regulations": ["6.1"],
+    "expected_answer_contains": ["1.5","mm","96","170"],
+    "is_answerable": true
+  },
+  {
+    "id": 5,
+    "question": "Do I need to list all ingredients on my laddoo packet?",
+    "expected_regulations": ["5.2"],
+    "expected_answer_contains": ["ingredient","descending","weight"],
+    "is_answerable": true
+  },
+  {
+    "id": 6,
+    "question": "What is the cheapest printing shop for food pouches in Kopargaon?",
+    "expected_regulations": [],
+    "expected_answer_contains": ["don't know","outside","scope"],
+    "is_answerable": false
+  },
+  {
+    "id": 7,
+    "question": "What FSSAI license number do I need on my packet?",
+    "expected_regulations": ["5.8"],
+    "expected_answer_contains": ["FSSAI","license","registration","logo"],
+    "is_answerable": true
+  },
+  {
+    "id": 8,
+    "question": "Can I write the manufacturing date as MFD 12-11-2026 on my packet?",
+    "expected_regulations": ["5.7"],
+    "expected_answer_contains": ["date","manufacture","best before","format"],
+    "is_answerable": true
+  },
+  {
+    "id": 9,
+    "question": "My laddoos contain groundnuts. What must I declare about allergens?",
+    "expected_regulations": ["5.4"],
+    "expected_answer_contains": ["allergen","peanut","declare"],
+    "is_answerable": true
+  },
+  {
+    "id": 10,
+    "question": "I add turmeric powder to my chakli for color. Do I need to declare it?",
+    "expected_regulations": ["5.12","5.2"],
+    "expected_answer_contains": ["additive","colour","declare","ingredient"],
+    "is_answerable": true
+  },
+  {
+    "id": 11,
+    "question": "What is the minimum font size for a packet with panel area of 200 cm²?",
+    "expected_regulations": ["6.1"],
+    "expected_answer_contains": ["2.0","mm","170","650"],
+    "is_answerable": true
+  },
+  {
+    "id": 12,
+    "question": "Must I print the country of origin on my chakli packets?",
+    "expected_regulations": ["5.9"],
+    "expected_answer_contains": ["country","origin","imported","domestic"],
+    "is_answerable": true
+  },
+  {
+    "id": 13,
+    "question": "What information must appear on the principal display panel?",
+    "expected_regulations": ["6.1","6.2"],
+    "expected_answer_contains": ["font","legible","contrast","mandatory"],
+    "is_answerable": true
+  },
+  {
+    "id": 14,
+    "question": "Are there any exemptions to the nutritional information requirement?",
+    "expected_regulations": ["5.3"],
+    "expected_answer_contains": ["exempt","small","100","spice","salt","tea"],
+    "is_answerable": true
+  },
+  {
+    "id": 15,
+    "question": "What is the weather forecast for Kopargaon tomorrow?",
+    "expected_regulations": [],
+    "expected_answer_contains": ["don't know","outside","scope"],
+    "is_answerable": false
+  }
+]
