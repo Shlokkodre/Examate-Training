@@ -24,7 +24,7 @@ class SmartSearch:
         self.records = records
         self.vectorizer = TfidfVectorizer(
             stop_words='english',
-            max_features=100,
+            max_features=500,
             ngram_range=(1, 2)
         )
         

@@ -76,7 +76,7 @@ def run_config(label: str, top_k: int, chunk_size: str, items: list) -> list:
     for item in items:
         result = ask(item["question"], top_k=top_k, chunk_size=chunk_size)
         sc = score_result(item, result)
-        status = "✓" if sc["passed"] else "✗"
+        status = "PASS" if sc["passed"] else "FAIL"
         print(
             f"  Q{item['id']:02d} {status}  "
             f"cite={sc['citation_hit']}  kw={sc['keyword_hit']}  "
