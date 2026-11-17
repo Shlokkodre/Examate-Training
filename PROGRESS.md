@@ -1,0 +1,205 @@
+# HealthLabelCheck - Progress Tracker
+
+## ✅ Completed Days (1-10)
+
+### Day 1 (Nov 4) - Python Basics & GitHub ✅
+- [x] Updated README.md with HealthLabelCheck project card
+- [x] day01_intro.py - Interactive introduction with user input
+- [x] day01_menu.py - Menu system with FSSAI regulation demo
+- [x] Committed with tag: day-01
+
+### Day 2 (Nov 5) - Collections & Functions ✅
+- [x] data/sample_records.py - 14 FSSAI regulation records
+- [x] app/records.py - Functions for load, search, count, get_by_id
+- [x] app/cli.py - Refactored CLI with modular functions
+- [x] requirements.txt - Project dependencies
+- [x] .gitignore - Proper Python gitignore
+- [x] Committed with: day-02:
+
+### Day 3 (Nov 6) - Files, Errors & Data Models ✅
+- [x] app/ingest.py - Data cleaning and validation with error handling
+- [x] data/records.json - Cleaned regulation data
+- [x] app/models.py - RegulationRecord dataclass with font size calculator
+- [x] app/fetch.py - Document fetching with retry logic and timeouts
+- [x] app/__init__.py - Package initialization
+- [x] Committed with: day-03:
+
+### Day 4 (Nov 7) - FastAPI & Smart Search ✅
+- [x] app/main.py - Full FastAPI application with 8+ endpoints:
+  - GET /health - Health check
+  - GET /records - List regulations with limit
+  - GET /records/{id} - Get specific regulation (404 handling)
+  - GET /search - Smart TF-IDF search
+  - POST /questions - Answer FSSAI questions
+  - POST /font-size - Calculate minimum font size
+  - GET /mandatory-checklist - Get mandatory requirements
+- [x] analysis/explore.py - Pandas analysis with 4+ facts
+- [x] app/smart_search.py - TF-IDF + cosine similarity ranking
+- [x] README updated with "How to Run" instructions
+- [x] API tested and working at http://localhost:8000
+- [x] Swagger docs available at http://localhost:8000/docs
+- [x] Committed with: day-04:
+- [x] **Tagged: week-1** ✅
+
+## 📊 API Test Results
+
+All endpoints tested successfully:
+- ✅ /health returns 200 with 14 records loaded
+- ✅ /records?limit=3 returns 3 records
+- ✅ /records/5.3 returns specific regulation
+- ✅ /records/99.9 correctly returns 404
+- ✅ /search?q=vegetarian returns relevant results with TF-IDF ranking
+- ✅ POST /questions answers FSSAI queries
+- ✅ POST /font-size calculates 96 cm² → 1.5mm font
+- ✅ /mandatory-checklist returns 10 mandatory items
+
+## 📦 Project Structure
+
+```
+Examate-Training/
+├── README.md                 # Project documentation
+├── PROGRESS.md              # This file
+├── requirements.txt         # Dependencies
+├── .gitignore              # Git ignore rules
+├── day01_intro.py          # Day 1: Introduction script
+├── day01_menu.py           # Day 1: Menu system
+├── test_api.py             # API testing script
+├── data/
+│   ├── sample_records.py   # 14 FSSAI regulations
+│   ├── records.json        # Cleaned JSON data
+│   └── raw/                # Raw document storage
+├── app/
+│   ├── __init__.py         # Package init
+│   ├── cli.py              # CLI interface
+│   ├── records.py          # Record management
+│   ├── models.py           # Data models & font calculator
+│   ├── ingest.py           # Data cleaning & validation
+│   ├── fetch.py            # Document fetching
+│   ├── main.py             # FastAPI application
+│   ├── smart_search.py     # TF-IDF search engine
+│   ├── llm.py              # LLM provider wrapper (Groq/Gemini)
+│   ├── chunking.py         # Regulation chunk splitter
+│   ├── embed.py            # Sentence-transformer embeddings
+│   ├── vectorstore.py      # Chroma persistent vector store
+│   ├── rag.py              # Full RAG pipeline
+│   └── streamlit_app.py    # Streamlit UI (Day 9)
+├── prompts/
+│   ├── system_prompt.md    # Main LLM system prompt
+│   ├── task_answer_question.md     # Q&A task prompt
+│   └── task_checklist_generator.md # Checklist task prompt
+├── eval/
+│   ├── eval_set.json       # 15-question evaluation set
+│   ├── run_eval.py         # Automated eval runner
+│   ├── prompt_compare.md   # Prompt A vs B comparison
+│   └── search_results.md   # Semantic search results
+├── docs/
+│   ├── checkpoint1_demo.md # Demo script for checkpoint 1
+│   ├── how_llms_work.md    # LLM concepts documentation
+│   └── user_questions.md   # 10 real user questions
+├── analysis/
+│   └── explore.py          # Pandas data analysis
+├── chroma_db/              # Persistent Chroma vector store
+├── Dockerfile              # Container build (Day 10)
+├── .dockerignore           # Docker build exclusions
+├── render.yaml             # Render Blueprint deploy config
+├── app.py                  # Hugging Face Spaces entry point
+├── README_HF.md            # HF Spaces front-matter
+└── validate_deploy.py      # Deployment file validator
+```
+## 🎯 Key Features Implemented
+
+1. **Label Checklist**: 10 mandatory FSSAI requirements
+2. **Font Size Calculator**: Based on principal display panel area (Regulation 6.1)
+3. **Smart Search**: TF-IDF + cosine similarity ranking
+4. **API Documentation**: Auto-generated Swagger UI
+5. **Error Handling**: Proper 404s, validation, try-except blocks
+6. **Data Analysis**: 4 facts about FSSAI regulations using pandas
+7. **LLM Integration**: Groq (Llama-3.1-70B) + Gemini API wrappers
+8. **Prompt Engineering**: Prompt A vs B comparison — Prompt A wins at 91.7%
+9. **Semantic Embeddings**: sentence-transformers (all-MiniLM-L6-v2)
+10. **Vector Store + RAG**: Chroma DB + retrieval-augmented generation with citations
+11. **Streamlit UI**: Non-technical web interface with Q&A, calculator, and checklist tabs
+12. **Deployment**: Docker + Render + Hugging Face Spaces with secrets management
+
+## 🏁 Completed Days (5–9)
+
+### Day 5 (Nov 12) - LLM Integration & Checkpoint Demo ✅
+- [x] app/llm.py - LLM provider wrapper (Groq + Gemini), HealthLabelCheckLLM class
+- [x] .env / .env.example - API key configuration
+- [x] prompts/system_prompt.md - Full system prompt with role, rules, examples
+- [x] prompts/task_answer_question.md - Task-specific prompt for Q&A
+- [x] prompts/task_checklist_generator.md - Task-specific prompt for checklist generation
+- [x] docs/checkpoint1_demo.md - 5-minute checkpoint demo script
+- [x] Committed with: day-05
+
+### Day 6 (Nov 13) - Prompt Engineering & Evaluation ✅
+- [x] eval/prompt_compare.md - A/B comparison of two prompt versions (Prompt A: 91.7% vs Prompt B: 87.9%)
+- [x] docs/user_questions.md - 10 real user questions for evaluation
+- [x] Winner: Prompt A (current system_prompt.md) — more complete and actionable
+- [x] Committed with: day-06
+
+### Day 7 (Nov 14) - Embeddings & Semantic Search ✅
+- [x] app/chunking.py - Splits each regulation into main + exemption chunks with metadata
+- [x] app/embed.py - EmbeddingSearchEngine using sentence-transformers (all-MiniLM-L6-v2)
+- [x] eval/search_results.md - Semantic search results on 10 user questions
+- [x] Committed with: day-07
+
+### Day 8 (Nov 15) - Vector Store & RAG Pipeline ✅
+- [x] app/vectorstore.py - Persistent Chroma vector store, build_index(), semantic_search()
+- [x] chroma_db/ - Persisted Chroma collection (284bd3bb collection)
+- [x] app/rag.py - Full RAG pipeline: retrieve → build context → LLM/rule-based answer
+- [x] eval/eval_set.json - 15-question evaluation set with expected citations and keywords
+- [x] eval/run_eval.py - Automated eval runner comparing two RAG configurations
+- [x] Committed with: day-08
+- [x] **Tagged: week-2** ✅
+
+### Day 9 (Nov 17) - Streamlit UI ✅
+- [x] app/streamlit_app.py - Full Streamlit web app with 4 tabs:
+  - 💬 Ask a Question — RAG-powered Q&A with quick-pick sample questions
+  - 📐 Font Size Calculator — real-time FSSAI Regulation 6.1 calculator
+  - ✅ Mandatory Checklist — expandable list of all mandatory label items
+  - 📋 Browse Regulations — keyword-searchable view of all 14 regulations
+- [x] requirements.txt updated with streamlit>=1.30.0
+- [x] Committed with: day-09
+
+### Day 10 (Nov 17) - Deployment ✅
+- [x] Dockerfile — containerised Streamlit app, port 8501, healthcheck on /_stcore/health
+- [x] .dockerignore — excludes .env, chroma_db/, venv/, __pycache__
+- [x] render.yaml — one-click Render Blueprint deploy (Docker, Singapore region)
+- [x] app.py — Hugging Face Spaces entry point (SDK: streamlit)
+- [x] README_HF.md — HF Spaces front-matter with title, emoji, sdk, app_file
+- [x] validate_deploy.py — local validation script (all checks pass)
+- [x] docs/checkpoint2_demo.md — 5-minute Checkpoint 2 demo script
+- [x] Committed with: day-10
+- [x] **Tagged: week-3-start** ✅
+
+## 📝 Next Steps (Day 11+)
+
+- [ ] Day 11: Fetch real FSSAI PDF and parse with pypdf
+- [ ] Day 12: Label photo upload → OCR → auto-checklist
+- [ ] And more...
+
+## 🚀 Quick Start
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the FastAPI server
+python -m uvicorn app.main:app --reload
+# Open: http://localhost:8000/docs
+
+# Run the Streamlit UI  (Day 9)
+streamlit run app/streamlit_app.py
+# Open: http://localhost:8501
+
+# Deploy with Docker  (Day 10)
+docker build -t healthlabelcheck .
+docker run -p 8501:8501 --env-file .env healthlabelcheck
+# Open: http://localhost:8501
+```
+
+## 📌 Repository
+
+- GitHub: https://github.com/Shlokkodre/Examate-Training
+- Tags: week-1 (Days 1–4), week-2 (Days 5–8), day-09, week-3-start (Day 10)
