@@ -1,4 +1,4 @@
-
+ 
 product = "HealthLabelCheck"
 target_users = "Small food business owners, home-based snack makers"
 data_source = "FSSAI Labelling and Display Regulations"
