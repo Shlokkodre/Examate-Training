@@ -310,6 +310,40 @@ def ask_rag(request: AskRequest):
     return AskResponse(**result)
 
 
+@app.post("/agent", tags=["Agent"])
+def run_agent_endpoint(request: dict):
+    """
+    Day 9 — LangGraph ReAct agent endpoint.
+    The agent chooses which tools to call (font-size calculator, semantic search,
+    mandatory checklist, regulation lookup) then returns a grounded answer.
+
+    Request body:
+        question  : str   — user question
+        thread_id : str   — conversation thread for MemorySaver (default "default")
+        approve   : bool  — auto-approve tool calls (default true)
+
+    Returns:
+        answer, tool_calls, interrupted, thread_id
+    """
+    from app.graph import run_agent
+    from pydantic import BaseModel as _BaseModel
+
+    question  = request.get("question", "")
+    thread_id = request.get("thread_id", "default")
+    approve   = request.get("approve", True)
+
+    if not question:
+        raise HTTPException(status_code=422, detail="'question' field is required.")
+
+    try:
+        result = run_agent(question, thread_id=thread_id, approve=approve)
+        return result
+    except EnvironmentError as e:
+        raise HTTPException(status_code=503, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Agent error: {e}")
+
+
 @app.post("/chat", response_model=ChatResponse, tags=["LLM"])
 def chat_with_llm(request: ChatRequest):
     """

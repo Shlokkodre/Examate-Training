@@ -22,6 +22,10 @@ python-dotenv>=1.0.0
 groq>=0.4.0
 google-generativeai>=0.3.0
 
+# Day 9 - LangGraph agent
+langgraph>=0.2.0
+langchain-groq>=0.1.0
+
 # Day 7 - Embeddings and Vector Store
 chromadb>=0.4.0
 sentence-transformers>=2.2.0

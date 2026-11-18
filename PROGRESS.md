@@ -154,14 +154,18 @@ Examate-Training/
 - [x] Committed with: day-08
 - [x] **Tagged: week-2** ✅
 
-### Day 9 (Nov 17) - Streamlit UI ✅
-- [x] app/streamlit_app.py - Full Streamlit web app with 4 tabs:
-  - 💬 Ask a Question — RAG-powered Q&A with quick-pick sample questions
-  - 📐 Font Size Calculator — real-time FSSAI Regulation 6.1 calculator
-  - ✅ Mandatory Checklist — expandable list of all mandatory label items
-  - 📋 Browse Regulations — keyword-searchable view of all 14 regulations
-- [x] requirements.txt updated with streamlit>=1.30.0
-- [x] Committed with: day-09
+### Day 9 (Nov 17) - Tool Calling + LangGraph Agent ✅
+- [x] app/tools.py — 4 @tool-decorated LangChain tools:
+  - min_font_size_checker — Reg 6.1 font size from panel dimensions
+  - search_regulations — semantic vector search over 14 regulations
+  - get_mandatory_checklist_tool — full mandatory label item list
+  - get_regulation_by_id — fetch any regulation by number
+- [x] app/agent_loop.py — should_continue() routing + format_final_answer()
+- [x] app/graph.py — LangGraph StateGraph with MemorySaver + interrupt_before=["tools"]
+- [x] app/main.py — POST /agent endpoint wired to run_agent()
+- [x] app/streamlit_app.py — Streamlit UI (4 tabs)
+- [x] requirements.txt updated with langgraph, langchain-groq
+- [x] Committed with: day-09-fix
 
 ### Day 10 (Nov 17) - Deployment ✅
 - [x] Dockerfile — containerised Streamlit app, port 8501, healthcheck on /_stcore/health
