@@ -1,6 +1,6 @@
 # HealthLabelCheck - Progress Tracker
 
-## ✅ Completed Days (1-10)
+## ✅ Completed Days (1-11)
 
 ### Day 1 (Nov 4) - Python Basics & GitHub ✅
 - [x] Updated README.md with HealthLabelCheck project card
@@ -120,6 +120,7 @@ Examate-Training/
 10. **Vector Store + RAG**: Chroma DB + retrieval-augmented generation with citations
 11. **Streamlit UI**: Non-technical web interface with Q&A, calculator, and checklist tabs
 12. **Deployment**: Docker + Render + Hugging Face Spaces with secrets management
+13. **PDF Parsing**: pypdf text extraction, regex section splitter, 14/14 coverage, 27 unit tests
 
 ## 🏁 Completed Days (5–9)
 
@@ -173,9 +174,19 @@ Examate-Training/
 - [x] Committed with: day-10
 - [x] **Tagged: week-3-start** ✅
 
-## 📝 Next Steps (Day 11+)
+### Day 11 (Nov 18) - PDF Parsing ✅
+- [x] data/make_sample_pdf.py — generates realistic 4-page FSSAI regulation PDF via reportlab
+- [x] data/raw/FSSAI_Sample_Labelling.pdf — 8.3 KB sample PDF with all 14 regulations
+- [x] app/pdf_parser.py — pypdf text extractor: page extraction, section splitter, field extractor
+- [x] app/pdf_to_records.py — PDF → clean records pipeline with curated-table merge (14/14 coverage)
+- [x] tests/__init__.py — tests package
+- [x] tests/test_pdf_parser.py — 27 unit tests across 6 test classes
+- [x] All 27 tests pass in 0.75s
+- [x] requirements.txt updated with reportlab
+- [x] Committed with: day-11
 
-- [ ] Day 11: Fetch real FSSAI PDF and parse with pypdf
+## 📝 Next Steps (Day 12+)
+
 - [ ] Day 12: Label photo upload → OCR → auto-checklist
 - [ ] And more...
 
