@@ -167,16 +167,14 @@ Examate-Training/
 - [x] requirements.txt updated with langgraph, langchain-groq
 - [x] Committed with: day-09-fix
 
-### Day 10 (Nov 17) - Deployment ✅
-- [x] Dockerfile — containerised Streamlit app, port 8501, healthcheck on /_stcore/health
-- [x] .dockerignore — excludes .env, chroma_db/, venv/, __pycache__
-- [x] render.yaml — one-click Render Blueprint deploy (Docker, Singapore region)
-- [x] app.py — Hugging Face Spaces entry point (SDK: streamlit)
-- [x] README_HF.md — HF Spaces front-matter with title, emoji, sdk, app_file
-- [x] validate_deploy.py — local validation script (all checks pass)
-- [x] docs/checkpoint2_demo.md — 5-minute Checkpoint 2 demo script
-- [x] Committed with: day-10
-- [x] **Tagged: week-3-start** ✅
+### Day 10 (Nov 18) - Streamlit UI + Checkpoint 2 ✅
+- [x] ui/app.py — Streamlit UI moved to ui/, calls POST /ask and POST /font-size via requests (no direct imports)
+- [x] 👍/👎 feedback buttons — save to data/feedback.jsonl with timestamp, question, answer, rating
+- [x] docs/screenshots/streamlit_ui.png — real Playwright screenshot of live UI
+- [x] README.md — screenshot added, duplicate eval sections cleaned up
+- [x] app.py — HF Spaces entry point updated to ui/app.py
+- [x] Committed with: day-10-fix
+- [x] **Tagged: checkpoint-2** ✅
 
 ### Day 11 (Nov 18) - PDF Parsing ✅
 - [x] data/make_sample_pdf.py — generates realistic 4-page FSSAI regulation PDF via reportlab
