@@ -35,3 +35,6 @@ streamlit>=1.30.0
 
 # Day 11 - PDF generation (sample PDF for testing pdf_parser)
 reportlab>=4.0.0
+
+# Day 12 - OCR
+easyocr>=1.7.0

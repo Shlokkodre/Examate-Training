@@ -1,6 +1,6 @@
 # HealthLabelCheck - Progress Tracker
 
-## ✅ Completed Days (1-11)
+## ✅ Completed Days (1-12)
 
 ### Day 1 (Nov 4) - Python Basics & GitHub ✅
 - [x] Updated README.md with HealthLabelCheck project card
@@ -121,6 +121,7 @@ Examate-Training/
 11. **Streamlit UI**: Non-technical web interface with Q&A, calculator, and checklist tabs
 12. **Deployment**: Docker + Render + Hugging Face Spaces with secrets management
 13. **PDF Parsing**: pypdf text extraction, regex section splitter, 14/14 coverage, 27 unit tests
+14. **OCR + Label Checker**: EasyOCR image → text, 14-regulation regex matcher, 32 unit tests, POST /ocr-checklist
 
 ## 🏁 Completed Days (5–9)
 
@@ -187,9 +188,19 @@ Examate-Training/
 - [x] requirements.txt updated with reportlab
 - [x] Committed with: day-11
 
-## 📝 Next Steps (Day 12+)
+### Day 12 (Nov 19) - Label Photo OCR → Auto-Checklist ✅
+- [x] data/make_sample_label.py — generates a 600×700 px food label image with Pillow
+- [x] data/sample_label.png — sample chakli label (intentionally missing Nutritional Info)
+- [x] app/ocr.py — EasyOCR text extractor with Pillow preprocessing (contrast, sharpen, upscale)
+- [x] app/label_checker.py — regex rules for all 14 FSSAI regulations → present/missing + hints
+- [x] app/main.py — POST /ocr-checklist (multipart image upload → OCR → compliance table)
+- [x] tests/test_label_checker.py — 32 unit tests across 4 test classes (32/32 pass)
+- [x] requirements.txt updated with easyocr
+- [x] Committed with: day-12
 
-- [ ] Day 12: Label photo upload → OCR → auto-checklist
+## 📝 Next Steps (Day 13+)
+
+- [ ] Day 13: Multi-language support (Marathi, Hindi)
 - [ ] And more...
 
 ## 🚀 Quick Start

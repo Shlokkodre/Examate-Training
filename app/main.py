@@ -3,7 +3,7 @@ FastAPI application for HealthLabelCheck
 FSSAI Food Labelling Regulation API
 """
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, UploadFile, File
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import json
@@ -308,6 +308,53 @@ def ask_rag(request: AskRequest):
     """
     result = rag_ask(request.question, top_k=request.top_k)
     return AskResponse(**result)
+
+
+@app.post("/ocr-checklist", tags=["Day 12 — OCR"])
+async def ocr_checklist(file: UploadFile = File(...)):
+    """
+    Day 12 — Upload a food label photo → OCR → FSSAI compliance checklist.
+
+    Accepts: JPEG, PNG, WEBP image (multipart/form-data, field name: file).
+
+    Returns:
+        ocr_text        : raw text extracted from the label
+        results         : per-regulation status (present / missing)
+        summary         : mandatory_present, mandatory_missing, compliance_pct
+        missing_hints   : actionable fixes for every missing item
+    """
+    from app.ocr import extract_text_from_image
+    from app.label_checker import check_label, checklist_summary
+
+    allowed = {"image/jpeg", "image/png", "image/webp", "image/jpg"}
+    if file.content_type not in allowed:
+        raise HTTPException(
+            status_code=415,
+            detail=f"Unsupported file type '{file.content_type}'. Upload a JPEG or PNG image.",
+        )
+
+    image_bytes = await file.read()
+    if len(image_bytes) > 10 * 1024 * 1024:   # 10 MB cap
+        raise HTTPException(status_code=413, detail="Image must be under 10 MB.")
+
+    try:
+        ocr_text = extract_text_from_image(image_bytes)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"OCR failed: {e}")
+
+    results  = check_label(ocr_text)
+    summary  = checklist_summary(results)
+    missing  = [
+        {"regulation_no": r["regulation_no"], "requirement": r["requirement"], "hint": r["hint"]}
+        for r in results if r["status"] == "missing"
+    ]
+
+    return {
+        "ocr_text":     ocr_text,
+        "results":      results,
+        "summary":      summary,
+        "missing_hints": missing,
+    }
 
 
 @app.post("/agent", tags=["Agent"])
