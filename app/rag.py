@@ -32,29 +32,31 @@ _ensure_index()
 
 def _call_llm(system: str, user: str) -> str:
     """
-    Call Groq LLM if GROQ_API_KEY is set, otherwise return a structured
-    rule-based answer so the RAG pipeline works without an API key.
+    Call Gemini LLM if GEMINI_API_KEY is set, otherwise return None
+    so the RAG pipeline falls back to rule-based answers.
     """
-    api_key = os.getenv("GROQ_API_KEY", "")
+    api_key = os.getenv("GEMINI_API_KEY", "")
     if api_key and api_key != "your_key_here_replace_this":
         try:
-            from groq import Groq
-            client = Groq(api_key=api_key)
-            resp = client.chat.completions.create(
-                model=os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile"),
-                messages=[
-                    {"role": "system", "content": system},
-                    {"role": "user",   "content": user},
-                ],
-                temperature=float(os.getenv("LLM_TEMPERATURE", 0.3)),
-                max_tokens=int(os.getenv("LLM_MAX_TOKENS", 500)),
+            from google import genai
+            from google.genai import types
+            client = genai.Client(api_key=api_key)
+            prompt = f"System: {system}\n\nUser: {user}"
+            response = client.models.generate_content(
+                model=os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=float(os.getenv("LLM_TEMPERATURE", 0.3)),
+                    max_output_tokens=int(os.getenv("LLM_MAX_TOKENS", 500)),
+                    top_p=float(os.getenv("LLM_TOP_P", 0.9)),
+                ),
             )
-            return resp.choices[0].message.content
+            return response.text
         except Exception as e:
             return f"[LLM error: {e}]"
 
-    # ── fallback: rule-based answer from retrieved chunks ──
-    return None   # signal to caller to use chunk text directly
+    # fallback: rule-based answer from retrieved chunks
+    return None
 
 
 # ── out-of-scope detector ────────────────────────────────────────────────────
@@ -154,7 +156,7 @@ def ask(question: str, top_k: int = 3, chunk_size: str = "full") -> dict:
             f"{h['text'][:200]}…"
         )
     answer_lines.append(
-        "\nPlease set GROQ_API_KEY in .env for natural-language answers."
+        "\nPlease set GEMINI_API_KEY in Render environment variables for natural-language answers."
     )
 
     return {

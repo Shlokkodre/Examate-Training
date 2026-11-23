@@ -52,18 +52,18 @@ SYSTEM_PROMPT = (
 # ── Build the LLM (with tools bound) ─────────────────────────────────────────
 
 def _build_llm():
-    """Return a Groq ChatModel with tools bound, or raise if key missing."""
-    api_key = os.getenv("GROQ_API_KEY", "")
+    """Return a Gemini ChatModel with tools bound, or raise if key missing."""
+    api_key = os.getenv("GEMINI_API_KEY", "")
     if not api_key or api_key == "your_key_here_replace_this":
         raise EnvironmentError(
-            "GROQ_API_KEY not set. Add it to .env to run the LangGraph agent."
+            "GEMINI_API_KEY not set. Add it to Render environment variables."
         )
-    from langchain_groq import ChatGroq
-    llm = ChatGroq(
-        model=os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile"),
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    llm = ChatGoogleGenerativeAI(
+        model=os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
         temperature=float(os.getenv("LLM_TEMPERATURE", 0.3)),
-        max_tokens=int(os.getenv("LLM_MAX_TOKENS", 500)),
-        api_key=api_key,
+        max_output_tokens=int(os.getenv("LLM_MAX_TOKENS", 500)),
+        google_api_key=api_key,
     )
     return llm.bind_tools(TOOLS)
 
