@@ -1,0 +1,25 @@
+# ── HealthLabelCheck — Streamlit UI ──────────────────────────────────────────
+# Lightweight UI container. It holds no logic: it calls the FastAPI backend
+# over HTTP at $API_BASE (set by Render to the api service's URL).
+#
+# Build:  docker build -f Dockerfile.web -t healthlabelcheck-web .
+# Run:    docker run -p 8501:8501 -e API_BASE=http://localhost:8000 healthlabelcheck-web
+# ─────────────────────────────────────────────────────────────────────────────
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir "streamlit>=1.30.0" "requests>=2.31.0"
+
+# UI source + data dir for feedback.jsonl writes
+COPY ui/ ui/
+RUN mkdir -p data
+
+ENV STREAMLIT_SERVER_HEADLESS=true \
+    PYTHONUNBUFFERED=1
+
+EXPOSE 8501
+
+# Render injects PORT; shell form so ${PORT} expands at runtime
+CMD streamlit run ui/app.py --server.port ${PORT:-8501} --server.address 0.0.0.0 --server.headless true

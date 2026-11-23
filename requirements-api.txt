@@ -1,0 +1,23 @@
+# Runtime dependencies for the HealthLabelCheck FastAPI backend (Docker).
+# Same as requirements.txt minus heavy dev-only packages:
+#   easyocr (torch)  - label photo OCR, too heavy for Render free tier
+#   streamlit        - UI ships as a separate container
+#   reportlab        - sample PDF generation (dev only)
+#   twilio           - WhatsApp sandbox testing (dev only)
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.5.0
+python-multipart>=0.0.6
+requests>=2.31.0
+pypdf>=3.0.0
+pandas>=2.1.0
+scikit-learn>=1.3.0
+numpy
+python-dotenv>=1.0.0
+groq>=0.4.0
+google-genai>=3.0.0
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+langgraph>=0.2.0
+langchain-groq>=0.1.0
+Pillow>=10.0.0

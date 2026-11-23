@@ -1,0 +1,38 @@
+# ── HealthLabelCheck — Backend API (FastAPI) ─────────────────────────────────
+# Runs the FastAPI app on the port Render provides via $PORT (default 8000).
+# The Chroma vector index is rebuilt from data/records.json on first start.
+#
+# Build:  docker build -f Dockerfile.api -t healthlabelcheck-api .
+# Run:    docker run -p 8000:8000 --env-file .env healthlabelcheck-api
+# ─────────────────────────────────────────────────────────────────────────────
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System deps for chromadb / sentence-transformers builds
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python deps (layer-cached)
+# CPU-only torch first (avoids multi-GB CUDA wheels that ship with the
+# default PyPI torch — we never use GPU) — keeps the image ~4 GB smaller.
+COPY requirements-api.txt .
+RUN pip install --no-cache-dir --timeout 120 --retries 5 --extra-index-url https://download.pytorch.org/whl/cpu torch
+RUN pip install --no-cache-dir -r requirements-api.txt
+
+# Cache the embedding model at build time so container startup is fast
+# and does not depend on the Hugging Face Hub being reachable at boot.
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+
+# Application source (uses .dockerignore to skip venv, chroma_db, .env, data/raw)
+COPY . .
+
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8000
+
+# Render injects PORT; shell form so ${PORT} expands at runtime
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}

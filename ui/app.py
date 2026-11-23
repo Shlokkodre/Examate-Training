@@ -16,7 +16,11 @@ import requests
 import streamlit as st
 
 # ── Backend base URL ──────────────────────────────────────────────────────────
+# Render's `fromService ... property: host` supplies a bare hostname
+# (healthlabelcheck-api.onrender.com), so normalize it to a full URL.
 API_BASE = os.getenv("API_BASE", "http://localhost:8000")
+if API_BASE and not API_BASE.startswith(("http://", "https://")):
+    API_BASE = f"https://{API_BASE}"
 
 # ── Feedback file ─────────────────────────────────────────────────────────────
 FEEDBACK_PATH = os.path.join(
