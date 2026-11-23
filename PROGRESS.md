@@ -1,6 +1,6 @@
 # HealthLabelCheck - Progress Tracker
 
-## ✅ Completed Days (1-14)
+## ✅ Completed Days (1-15)
 
 ### Day 1 (Nov 4) - Python Basics & GitHub ✅
 - [x] Updated README.md with HealthLabelCheck project card
@@ -216,9 +216,16 @@ Examate-Training/
 - [x] requirements.txt updated with twilio
 - [x] Committed with: day-14
 
-## 📝 Next Steps (Day 15+)
+### Day 15 (Nov 20) - Integration Tests + CI ✅
+- [x] tests/test_integration.py — 40 end-to-end tests via FastAPI TestClient (all endpoints)
+- [x] .github/workflows/ci.yml — GitHub Actions CI: runs all 182 tests on every push to main
+- [x] app/whatsapp_bot.py — fixed syntax error (merged lines from earlier edit)
+- [x] 182/182 tests pass in 52s
+- [x] Committed with: day-15
 
-- [ ] Day 15: End-to-end integration tests + CI workflow
+## 📝 Next Steps (Day 16+)
+
+- [ ] Day 16: User authentication + rate limiting
 - [ ] And more...
 
 ## 🚀 Quick Start

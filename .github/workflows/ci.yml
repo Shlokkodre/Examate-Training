@@ -1,0 +1,52 @@
+name: HealthLabelCheck CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          # Install CPU-only torch first to avoid 2 GB CUDA wheels
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: Run unit tests (Days 11–14)
+        run: |
+          python -m pytest tests/test_pdf_parser.py \
+                           tests/test_label_checker.py \
+                           tests/test_translations.py \
+                           tests/test_whatsapp_bot.py \
+                           -v --tb=short
+        env:
+          PYTHONUNBUFFERED: "1"
+
+      - name: Run integration tests (Day 15)
+        run: |
+          python -m pytest tests/test_integration.py -v --tb=short
+        env:
+          PYTHONUNBUFFERED: "1"
+          # No LLM key — RAG runs in rule_based mode which is fully testable
+          LLM_PROVIDER: gemini
+
+      - name: Print test summary
+        if: always()
+        run: |
+          python -m pytest tests/ -v --tb=no -q 2>&1 | tail -5
