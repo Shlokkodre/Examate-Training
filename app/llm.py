@@ -61,39 +61,38 @@ class GroqProvider(LLMProvider):
 
 
 class GeminiProvider(LLMProvider):
-    """Google Gemini API provider"""
-    
+    """Google Gemini API provider — uses google-genai SDK (v3+)"""
+
     def __init__(self, model: str = None, temperature: float = 0.3, max_tokens: int = 500):
         super().__init__(
-            model=model or os.getenv('GEMINI_MODEL', 'gemini-pro'),
+            model=model or os.getenv('GEMINI_MODEL', 'gemini-2.0-flash'),
             temperature=temperature,
             max_tokens=max_tokens
         )
         self.api_key = os.getenv('GEMINI_API_KEY')
-        
+
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY not found in environment variables")
-        
+
         try:
-            import google.generativeai as genai
-            genai.configure(api_key=self.api_key)
-            self.client = genai.GenerativeModel(self.model)
+            from google import genai
+            self.client = genai.Client(api_key=self.api_key)
         except ImportError:
-            raise ImportError("google-generativeai package not installed. Run: pip install google-generativeai")
-    
+            raise ImportError("google-genai package not installed. Run: pip install google-genai")
+
     def generate(self, messages: List[Dict[str, str]]) -> str:
-        """Generate response using Gemini API"""
+        """Generate response using Gemini API (google-genai SDK)"""
         try:
-            # Convert messages to Gemini format
+            from google.genai import types
             prompt = self._convert_messages_to_prompt(messages)
-            
-            response = self.client.generate_content(
-                prompt,
-                generation_config={
-                    'temperature': self.temperature,
-                    'max_output_tokens': self.max_tokens,
-                    'top_p': float(os.getenv('LLM_TOP_P', 0.9))
-                }
+            response = self.client.models.generate_content(
+                model=self.model,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=self.temperature,
+                    max_output_tokens=self.max_tokens,
+                    top_p=float(os.getenv('LLM_TOP_P', 0.9)),
+                ),
             )
             return response.text
         except Exception as e:

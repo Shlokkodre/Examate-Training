@@ -20,7 +20,7 @@ python-multipart>=0.0.6  # For file uploads
 # Day 6 - LLM Integration
 python-dotenv>=1.0.0
 groq>=0.4.0
-google-generativeai>=0.3.0
+google-genai>=3.0.0
 
 # Day 9 - LangGraph agent
 langgraph>=0.2.0

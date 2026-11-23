@@ -123,11 +123,9 @@ def print_comparison_table(configs: list[tuple]) -> str:
 
 
 def update_readme(table: str, winner: str) -> None:
-    """Append the eval results block to README.md."""
+    """Replace (not append) the eval results block in README.md."""
     readme_path = "README.md"
-    section = f"""
-
-## RAG Evaluation Results
+    section = f"""## RAG Evaluation Results
 
 Two configurations tested on 15 questions (`eval/eval_set.json`):
 
@@ -143,9 +141,26 @@ scope_correct = out-of-scope questions answered with "I don't know".
 
 Run: `python eval/run_eval.py`
 """
-    with open(readme_path, "a", encoding="utf-8") as f:
-        f.write(section)
-    print(f"\nREADME updated with eval results.")
+    try:
+        with open(readme_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Remove all existing RAG Evaluation Results sections
+        import re
+        content = re.sub(
+            r"## RAG Evaluation Results.*?(?=\n## |\Z)",
+            "",
+            content,
+            flags=re.DOTALL,
+        ).rstrip()
+
+        # Append the single updated section
+        with open(readme_path, "w", encoding="utf-8") as f:
+            f.write(content + "\n\n" + section)
+
+        print(f"\nREADME updated with eval results.")
+    except Exception as e:
+        print(f"\nCould not update README: {e}")
 
 
 if __name__ == "__main__":
