@@ -357,6 +357,38 @@ async def ocr_checklist(file: UploadFile = File(...)):
     }
 
 
+@app.post("/ocr-checklist-lang", tags=["Day 13 — Multi-language"])
+async def ocr_checklist_lang(
+    file: UploadFile = File(...),
+    lang: str = Query(default="en", description="Language code: en, mr (Marathi), hi (Hindi)"),
+):
+    """
+    Day 13 — Upload a food label photo → OCR → multi-language compliance checklist.
+
+    Same as /ocr-checklist but returns requirement names and hints translated
+    into the requested language (en / mr / hi).
+    """
+    from app.ocr import extract_text_from_image
+    from app.multilang_checker import check_label_multilang
+
+    allowed = {"image/jpeg", "image/png", "image/webp", "image/jpg"}
+    if file.content_type not in allowed:
+        raise HTTPException(status_code=415, detail=f"Unsupported file type '{file.content_type}'.")
+
+    image_bytes = await file.read()
+    if len(image_bytes) > 10 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Image must be under 10 MB.")
+
+    try:
+        ocr_text = extract_text_from_image(image_bytes)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"OCR failed: {e}")
+
+    output = check_label_multilang(ocr_text, lang=lang)
+    output["ocr_text"] = ocr_text
+    return output
+
+
 @app.post("/agent", tags=["Agent"])
 def run_agent_endpoint(request: dict):
     """

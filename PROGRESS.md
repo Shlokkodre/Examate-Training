@@ -1,6 +1,6 @@
 # HealthLabelCheck - Progress Tracker
 
-## ✅ Completed Days (1-12)
+## ✅ Completed Days (1-13)
 
 ### Day 1 (Nov 4) - Python Basics & GitHub ✅
 - [x] Updated README.md with HealthLabelCheck project card
@@ -122,6 +122,7 @@ Examate-Training/
 12. **Deployment**: Docker + Render + Hugging Face Spaces with secrets management
 13. **PDF Parsing**: pypdf text extraction, regex section splitter, 14/14 coverage, 27 unit tests
 14. **OCR + Label Checker**: EasyOCR image → text, 14-regulation regex matcher, 32 unit tests, POST /ocr-checklist
+15. **Multi-language**: EN / MR / HI translations for all regulations + hints, POST /ocr-checklist-lang, 32 tests
 
 ## 🏁 Completed Days (5–9)
 
@@ -198,9 +199,16 @@ Examate-Training/
 - [x] requirements.txt updated with easyocr
 - [x] Committed with: day-12
 
-## 📝 Next Steps (Day 13+)
+### Day 13 (Nov 19) - Multi-language Support (Marathi + Hindi) ✅
+- [x] app/translations.py — 14 regulation names, hints, 8 UI strings in EN / MR / HI; t() lookup helper
+- [x] app/multilang_checker.py — wraps label_checker, adds translated fields; format_multilang_table()
+- [x] app/main.py — POST /ocr-checklist-lang (lang query param: en/mr/hi)
+- [x] tests/test_translations.py — 32 unit tests across 4 test classes (32/32 pass in 0.10s)
+- [x] Committed with: day-13
 
-- [ ] Day 13: Multi-language support (Marathi, Hindi)
+## 📝 Next Steps (Day 14+)
+
+- [ ] Day 14: WhatsApp bot integration
 - [ ] And more...
 
 ## 🚀 Quick Start
