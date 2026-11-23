@@ -38,3 +38,6 @@ reportlab>=4.0.0
 
 # Day 12 - OCR
 easyocr>=1.7.0
+
+# Day 14 - WhatsApp Bot
+twilio>=9.0.0

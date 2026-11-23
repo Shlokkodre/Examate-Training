@@ -1,6 +1,6 @@
 # HealthLabelCheck - Progress Tracker
 
-## ✅ Completed Days (1-13)
+## ✅ Completed Days (1-14)
 
 ### Day 1 (Nov 4) - Python Basics & GitHub ✅
 - [x] Updated README.md with HealthLabelCheck project card
@@ -123,6 +123,7 @@ Examate-Training/
 13. **PDF Parsing**: pypdf text extraction, regex section splitter, 14/14 coverage, 27 unit tests
 14. **OCR + Label Checker**: EasyOCR image → text, 14-regulation regex matcher, 32 unit tests, POST /ocr-checklist
 15. **Multi-language**: EN / MR / HI translations for all regulations + hints, POST /ocr-checklist-lang, 32 tests
+16. **WhatsApp Bot**: Twilio webhook, intent parser, per-user language sessions, TwiML replies, 51 tests
 
 ## 🏁 Completed Days (5–9)
 
@@ -206,9 +207,18 @@ Examate-Training/
 - [x] tests/test_translations.py — 32 unit tests across 4 test classes (32/32 pass in 0.10s)
 - [x] Committed with: day-13
 
-## 📝 Next Steps (Day 14+)
+### Day 14 (Nov 20) - WhatsApp Bot (Twilio) ✅
+- [x] app/whatsapp_bot.py — intent parser (greeting/checklist/font/ask/lang), per-user language sessions, reply builders in EN/MR/HI
+- [x] app/whatsapp_webhook.py — FastAPI router: POST /whatsapp (Twilio TwiML), GET /whatsapp/health, optional signature validation
+- [x] app/main.py — whatsapp_router mounted
+- [x] docs/whatsapp_setup.md — step-by-step Twilio sandbox + ngrok + Render setup guide
+- [x] tests/test_whatsapp_bot.py — 51 unit tests across 6 test classes (51/51 pass in 11s)
+- [x] requirements.txt updated with twilio
+- [x] Committed with: day-14
 
-- [ ] Day 14: WhatsApp bot integration
+## 📝 Next Steps (Day 15+)
+
+- [ ] Day 15: End-to-end integration tests + CI workflow
 - [ ] And more...
 
 ## 🚀 Quick Start

@@ -22,6 +22,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Mount WhatsApp webhook router (Day 14)
+from app.whatsapp_webhook import router as whatsapp_router
+app.include_router(whatsapp_router)
+
 # Load records on startup
 RECORDS = []
 SEARCH_ENGINE = None
