@@ -1,25 +1,25 @@
-# ── HealthLabelCheck — Render deployment config (Docker) ────────────────────
-# Two containers:
-#   api  — FastAPI backend (Dockerfile.api), Chroma index built on first start
-#   web  — Streamlit UI    (Dockerfile.web), talks to the api service over HTTP
+# ── HealthLabelCheck — Render deployment (Docker Hub images) ─────────────────
+# Render pulls pre-built images from Docker Hub — no build step on Render.
 #
-# Deploy: https://dashboard.render.com → New → Blueprint (select this repo)
-# Docs:   https://render.com/docs/blueprint-spec
+# Images (public):
+#   docker.io/shlok0626/healthlabelcheck-api:latest  — FastAPI backend
+#   docker.io/shlok0626/healthlabelcheck-web:latest  — Streamlit UI
 #
-# NOTE: both services must exist under names below; the web service gets
-# API_BASE automatically from the api service's host.
+# Re-push flow: rebuild locally, `docker push` both, then in Render dashboard
+# trigger "Clear build cache & deploy" (or bump the tag) to pull the new image.
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
   # ── Backend API ──────────────────────────────────────────────────────────
   - type: web
     name: healthlabelcheck-api
-    runtime: docker
-    dockerfilePath: ./Dockerfile.api
+    runtime: image
     plan: free          # upgrade for more RAM if the agent endpoint needs it
     region: singapore   # closest to India
     branch: main
     healthCheckPath: /health
+    image:
+      url: docker.io/shlok0626/healthlabelcheck-api:latest
 
     envVars:
       - key: LLM_PROVIDER
@@ -40,12 +40,13 @@ services:
   # ── Streamlit UI ─────────────────────────────────────────────────────────
   - type: web
     name: healthlabelcheck-web
-    runtime: docker
-    dockerfilePath: ./Dockerfile.web
+    runtime: image
     plan: free
     region: singapore
     branch: main
     healthCheckPath: /_stcore/health
+    image:
+      url: docker.io/shlok0626/healthlabelcheck-web:latest
 
     # Free tier sleeps after 15 min of inactivity; first request after
     # sleep takes ~30 s to wake. Both services wake independently.
