@@ -23,16 +23,16 @@ services:
 
     envVars:
       - key: LLM_PROVIDER
-        value: groq
-      - key: GROQ_MODEL
-        value: llama-3.1-70b-versatile
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
       - key: LLM_TEMPERATURE
         value: "0.3"
       - key: LLM_MAX_TOKENS
         value: "500"
       - key: LLM_TOP_P
         value: "0.9"
-      - key: GROQ_API_KEY
+      - key: GEMINI_API_KEY
         sync: false       # secret — enter value in Render dashboard
       - key: PYTHONUNBUFFERED
         value: "1"

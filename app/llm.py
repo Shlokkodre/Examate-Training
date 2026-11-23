@@ -123,7 +123,7 @@ class HealthLabelCheckLLM:
         Args:
             provider: "groq" or "gemini" (defaults to LLM_PROVIDER env var)
         """
-        self.provider_name = provider or os.getenv('LLM_PROVIDER', 'groq')
+        self.provider_name = provider or os.getenv('LLM_PROVIDER', 'gemini')
         self.temperature = float(os.getenv('LLM_TEMPERATURE', 0.3))
         self.max_tokens = int(os.getenv('LLM_MAX_TOKENS', 500))
         

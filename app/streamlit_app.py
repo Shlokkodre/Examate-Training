@@ -56,7 +56,7 @@ with st.sidebar:
         "who need to print compliant labels before selling in shops."
     )
 
-    llm_status = "✅ LLM enabled" if os.getenv("GROQ_API_KEY") else "⚠️ No API key — rule-based mode"
+    llm_status = "✅ LLM enabled" if os.getenv("GEMINI_API_KEY") else "⚠️ No API key — rule-based mode"
     st.caption(llm_status)
 
 
