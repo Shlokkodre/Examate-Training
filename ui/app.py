@@ -46,20 +46,26 @@ def save_feedback(question: str, answer: str, rating: str) -> None:
 # ── API helpers ───────────────────────────────────────────────────────────────
 
 def call_ask(question: str, top_k: int = 5) -> dict:
-    """POST /ask — RAG answer with citations."""
-    try:
-        r = requests.post(
-            f"{API_BASE}/ask",
-            json={"question": question, "top_k": top_k},
-            timeout=30,
-        )
-        r.raise_for_status()
-        return r.json()
-    except requests.exceptions.ConnectionError:
-        return {"answer": f"Cannot reach backend at {API_BASE}. Is the FastAPI server running?",
-                "citations": [], "chunks_used": 0, "source": "error"}
-    except Exception as e:
-        return {"answer": f"Error: {e}", "citations": [], "chunks_used": 0, "source": "error"}
+    """POST /ask — RAG answer with citations. Retries once on timeout (Render wake-up)."""
+    for attempt in range(2):
+        try:
+            r = requests.post(
+                f"{API_BASE}/ask",
+                json={"question": question, "top_k": top_k},
+                timeout=90,
+            )
+            r.raise_for_status()
+            return r.json()
+        except requests.exceptions.Timeout:
+            if attempt == 0:
+                continue  # retry once
+            return {"answer": "The server took too long to respond. It may be waking up — please try again in 30 seconds.",
+                    "citations": [], "chunks_used": 0, "source": "error"}
+        except requests.exceptions.ConnectionError:
+            return {"answer": f"Cannot reach backend at {API_BASE}. Is the FastAPI server running?",
+                    "citations": [], "chunks_used": 0, "source": "error"}
+        except Exception as e:
+            return {"answer": f"Error: {e}", "citations": [], "chunks_used": 0, "source": "error"}
 
 
 def call_font_size(length: float, width: float) -> dict:
@@ -127,10 +133,12 @@ with st.sidebar:
     )
     st.markdown("---")
 
-    # Backend health
+    # Backend health + auto wake-up ping
     try:
-        h = requests.get(f"{API_BASE}/health", timeout=5).json()
+        h = requests.get(f"{API_BASE}/health", timeout=10).json()
         st.success(f"API online — {h.get('records_loaded', '?')} regulations loaded")
+    except requests.exceptions.Timeout:
+        st.warning("⏳ API is waking up — first request may take 30s. Please wait.")
     except Exception:
         st.error(f"API offline ({API_BASE})")
 
@@ -184,7 +192,7 @@ with tab_ask:
 
     if ask_btn and user_question.strip():
         st.session_state["last_question"] = user_question
-        with st.spinner("Searching regulations…"):
+        with st.spinner("Searching regulations… (first request may take ~30s if server just woke up)"):
             result = call_ask(user_question.strip(), top_k=top_k)
 
         st.markdown("---")
