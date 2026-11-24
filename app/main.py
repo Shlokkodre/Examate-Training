@@ -12,8 +12,7 @@ import os
 from app.models import RegulationRecord, get_min_font_size
 from app.smart_search import SmartSearch
 from app.llm import get_llm
-from app.vectorstore import semantic_search as vector_search
-from app.rag import ask as rag_ask
+# vectorstore and rag imported lazily inside endpoints to avoid OOM at startup
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -287,6 +286,7 @@ def search_semantic(
     Returns ranked results with similarity scores.
     """
     try:
+        from app.vectorstore import semantic_search as vector_search
         results = vector_search(q, top_k=top_k)
         return results
     except Exception as e:
@@ -308,8 +308,9 @@ def ask_rag(request: AskRequest):
     """
     RAG endpoint: retrieves relevant regulation chunks from Chroma
     then generates a grounded answer with citations.
-    Returns 'I don't know' for out-of-scope questions (e.g. Q6).
+    Returns 'I don't know' for out-of-scope questions.
     """
+    from app.rag import ask as rag_ask
     result = rag_ask(request.question, top_k=request.top_k)
     return AskResponse(**result)
 

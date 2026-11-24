@@ -15,17 +15,21 @@ from app.chunking import load_records, chunk_all_records
 
 # ── ensure the vector index exists ──────────────────────────────────────────
 
+_index_ready = False
+
 def _ensure_index() -> None:
-    """Build Chroma index if it is empty."""
+    """Build Chroma index on first call (lazy — avoids OOM at startup)."""
+    global _index_ready
+    if _index_ready:
+        return
     try:
         col = get_collection()
         if col.count() == 0:
             build_index()
+        _index_ready = True
     except Exception:
         build_index()
-
-
-_ensure_index()
+        _index_ready = True
 
 
 # ── LLM call (optional) ──────────────────────────────────────────────────────
@@ -89,6 +93,8 @@ def ask(question: str, top_k: int = 3, chunk_size: str = "full") -> dict:
         chunks_used : int
         source      : "llm" | "rule_based" | "out_of_scope"
     """
+    # Lazy-load vector index on first call
+    _ensure_index()
     # Out-of-scope guard
     if _is_out_of_scope(question):
         return {
