@@ -1,4 +1,8 @@
 ## Screenshot
+# HealthLabelCheck
+
+[![CI](https://github.com/Shlokkodre/Examate-Training/actions/workflows/ci.yml/badge.svg)](https://github.com/Shlokkodre/Examate-Training/actions/workflows/ci.yml)
+[![Live API](https://img.shields.io/badge/API-live-brightgreen)](https://healthlabelcheck-api-latest.onrender.com/docs)
 
 ![HealthLabelCheck Streamlit UI](docs/screenshots/streamlit_ui.png)
 
