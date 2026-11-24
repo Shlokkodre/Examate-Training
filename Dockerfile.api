@@ -30,6 +30,9 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 # Application source (uses .dockerignore to skip venv, chroma_db, .env, data/raw)
 COPY . .
 
+# Pre-build the Chroma vector index at image build time so first /ask is instant
+RUN python -c "from app.vectorstore import build_index; build_index()" || echo "Index build skipped"
+
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000

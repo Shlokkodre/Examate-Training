@@ -12,8 +12,8 @@ venv/
 dist/
 build/
 
-# Chroma DB (rebuilt at runtime from records.json)
-chroma_db/
+# Chroma DB — built at image build time, included in image
+# chroma_db/
 
 # Environment secrets
 .env
