@@ -1,6 +1,6 @@
 # HealthLabelCheck - Progress Tracker
 
-## ✅ Completed Days (1-15)
+## ✅ Completed Days (1-16)
 
 ### Day 1 (Nov 4) - Python Basics & GitHub ✅
 - [x] Updated README.md with HealthLabelCheck project card
@@ -223,7 +223,16 @@ Examate-Training/
 - [x] 182/182 tests pass in 52s
 - [x] Committed with: day-15
 
-## 📝 Next Steps (Day 16+)
+### Day 16 (Nov 24) - Feedback Analysis + OCR UI Tab ✅
+- [x] app/feedback.py — load/save feedback.jsonl, get_feedback_stats() with satisfaction%, top questions, recent entries
+- [x] app/main.py — GET /feedback-stats, POST /feedback endpoints
+- [x] ui/app.py — 2 new tabs: 📸 Label Photo Check (OCR upload) + 📊 Feedback Stats
+- [x] tests/test_feedback.py — 20 unit + API tests (20/20 pass)
+- [x] data/records.json — added AMD-2021 amendment record (15 records total)
+- [x] 202/202 total tests pass
+- [x] Committed with: day-16
+
+## 📝 Next Steps (Day 17+)
 
 - [ ] Day 16: User authentication + rate limiting
 - [ ] And more...

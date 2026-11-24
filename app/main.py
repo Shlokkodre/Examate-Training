@@ -314,6 +314,34 @@ def ask_rag(request: AskRequest):
     return AskResponse(**result)
 
 
+@app.get("/feedback-stats", tags=["Day 16 — Feedback"])
+def feedback_stats():
+    """
+    Day 16 — Return thumbs-up/down statistics from data/feedback.jsonl.
+    Shows total feedback, satisfaction %, top questions, and recent entries.
+    """
+    from app.feedback import get_feedback_stats
+    return get_feedback_stats()
+
+
+@app.post("/feedback", tags=["Day 16 — Feedback"])
+def submit_feedback(request: dict):
+    """
+    Day 16 — Submit feedback for an answer.
+    Body: {question: str, answer: str, rating: 'up' | 'down'}
+    """
+    from app.feedback import save_feedback
+    question = request.get("question", "")
+    answer   = request.get("answer", "")
+    rating   = request.get("rating", "")
+    if rating not in ("up", "down"):
+        raise HTTPException(status_code=422, detail="rating must be 'up' or 'down'")
+    if not question:
+        raise HTTPException(status_code=422, detail="question is required")
+    save_feedback(question, answer, rating)
+    return {"status": "saved", "rating": rating}
+
+
 @app.post("/ocr-checklist", tags=["Day 12 — OCR"])
 async def ocr_checklist(file: UploadFile = File(...)):
     """

@@ -145,8 +145,9 @@ st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 
-tab_ask, tab_font, tab_checklist, tab_browse = st.tabs(
-    ["💬 Ask a Question", "📐 Font Size Calculator", "✅ Mandatory Checklist", "📋 Browse Regulations"]
+tab_ask, tab_font, tab_checklist, tab_browse, tab_ocr, tab_stats = st.tabs(
+    ["💬 Ask a Question", "📐 Font Size Calculator", "✅ Mandatory Checklist",
+     "📋 Browse Regulations", "📸 Label Photo Check", "📊 Feedback Stats"]
 )
 
 # ─── Tab 1: Ask a Question ────────────────────────────────────────────────────
@@ -320,9 +321,101 @@ with tab_browse:
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 
+# ─── Tab 5: Label Photo Check (OCR) ──────────────────────────────────────────
+
+with tab_ocr:
+    st.subheader("📸 Upload Label Photo → Compliance Check")
+    st.markdown(
+        "Upload a photo of your food packet label. The system uses OCR to extract "
+        "the text and checks it against all 14 FSSAI regulations."
+    )
+
+    lang_ocr = st.selectbox(
+        "Result language",
+        options=["en", "mr", "hi"],
+        format_func=lambda x: {"en": "English", "mr": "Marathi", "hi": "Hindi"}[x],
+    )
+
+    uploaded = st.file_uploader(
+        "Upload label image", type=["jpg", "jpeg", "png", "webp"]
+    )
+
+    if uploaded:
+        st.image(uploaded, caption="Uploaded label", width=300)
+        with st.spinner("Running OCR and checking regulations…"):
+            try:
+                files = {"file": (uploaded.name, uploaded.getvalue(), uploaded.type)}
+                r = requests.post(
+                    f"{API_BASE}/ocr-checklist-lang",
+                    files=files,
+                    params={"lang": lang_ocr},
+                    timeout=60,
+                )
+                r.raise_for_status()
+                data = r.json()
+
+                st.markdown("---")
+                summary = data.get("summary", {})
+                pct = summary.get("compliance_pct", 0)
+                col1, col2, col3 = st.columns(3)
+                col1.metric("Mandatory Present", f"{summary.get('mandatory_present', 0)}/{summary.get('mandatory_total', 0)}")
+                col2.metric("Compliance", f"{pct}%")
+                col3.metric("Missing", summary.get("mandatory_missing", 0))
+
+                st.markdown("### Regulation Results")
+                for item in data.get("results", []):
+                    icon = "✅" if item["status"] == "present" else "❌"
+                    req = item.get("requirement_translated") or item["requirement"]
+                    st.markdown(f"{icon} **{item['regulation_no']}** — {req}")
+                    if item["status"] == "missing" and item.get("hint_translated"):
+                        st.caption(f"   → {item['hint_translated']}")
+
+                with st.expander("Raw OCR text"):
+                    st.text(data.get("ocr_text", ""))
+
+            except Exception as e:
+                st.error(f"Error: {e}")
+
+
+# ─── Tab 6: Feedback Stats ────────────────────────────────────────────────────
+
+with tab_stats:
+    st.subheader("📊 User Feedback Statistics")
+
+    try:
+        r = requests.get(f"{API_BASE}/feedback-stats", timeout=10)
+        r.raise_for_status()
+        stats = r.json()
+    except Exception as e:
+        st.error(f"Could not load stats: {e}")
+        stats = {}
+
+    if stats and stats.get("total", 0) > 0:
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Total Feedback",  stats["total"])
+        c2.metric("👍 Thumbs Up",    stats["thumbs_up"])
+        c3.metric("Satisfaction",    f"{stats['satisfaction_pct']}%")
+
+        st.markdown("---")
+        st.markdown("**Top Questions Asked**")
+        for q in stats.get("top_questions", []):
+            st.markdown(f"- ({q['count']}×) {q['question'][:80]}")
+
+        st.markdown("---")
+        st.markdown("**Recent Feedback**")
+        for entry in stats.get("recent", []):
+            icon = "👍" if entry.get("rating") == "up" else "👎"
+            st.markdown(f"{icon} {entry.get('question', '')[:80]}")
+    else:
+        st.info("No feedback yet. Ask a question and rate the answer to see stats here.")
+
+    if st.button("Refresh", use_container_width=True):
+        st.rerun()
+
+
 st.markdown("---")
 st.caption(
-    "HealthLabelCheck — Day 10 UI  |  "
+    "HealthLabelCheck — Day 16 UI  |  "
     "Data: FSSAI Labelling and Display Regulations 2020  |  "
     "For educational purposes only. Always verify with official FSSAI documents."
 )
